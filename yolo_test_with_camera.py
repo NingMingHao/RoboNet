@@ -17,7 +17,6 @@ from timeit import default_timer as timer
 from coordinate_transformer import Camera
 from Car_info import Car_info
 from keras.models import load_model
-from sklearn.utils.linear_assignment_ import linear_assignment
 from Tracker import Tracker
 
 

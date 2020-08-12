@@ -8,7 +8,7 @@ Created on Mon Feb 10 15:25:52 2020
 
 from __future__ import print_function
 import numpy as np
-from sklearn.utils.linear_assignment_ import linear_assignment
+from scipy.optimize import linear_sum_assignment as linear_assignment
 from filterpy.kalman import KalmanFilter
 import cv2
 from Car_info import Car_info
@@ -148,7 +148,7 @@ def associate_detections_to_trackers(bbox2ID_matrix, pos_heading_info, trackers,
                 trk_box = convert_pos_angle_to_bbox(trk)
                 bbox2ID_matrix[d,t] += iou_rotate_calculate(det_box,trk_box)
               
-    matched_indices = linear_assignment(-bbox2ID_matrix)
+    matched_indices = np.array(linear_assignment(-bbox2ID_matrix)).T
     
     unmatched_detections = []
     for d,det in enumerate(pos_heading_info):

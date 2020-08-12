@@ -18,7 +18,7 @@
 
 * 网络结构图（把Darknet53换成19， 两个多尺度预测）：
 
-  ![image-20200218231947277](pics/Yolo_v3_Structure.png)
+  ![image-20200218231947277](pics/Yolo_v3_Structure.jpg)
 
 ### 车轮、装甲板、尾灯检测模块
 
@@ -55,3 +55,16 @@
 
 * 在得到检测结果后，可得到每个检测到的bounding box属于ID（红1、红2、蓝1、蓝2）的概率矩阵，再计算坐标变换后的车位置与卡尔曼滤波预测位置的IOU矩阵
 * 将上述两个矩阵相加，通过匈牙利算法选出每个检测结果对应的ID，进而更新卡尔曼滤波器
+
+### 测试步骤
+
+* 在RoboNet目录下，运行`python yolo_test_with_camera.py`
+
+* 在弹出的scene_image窗口中依次双击选择4个关键点（按退格键清除上一次选中点，4个点选中好后按回车确认）
+  ![image-20200812154340758](pics/select_4_keypoints.jpg)
+
+  关键点的选择顺序为：![keypoints](pics/keypoints.jpg)
+  
+
+  
+
