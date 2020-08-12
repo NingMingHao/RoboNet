@@ -14,11 +14,11 @@
 
 * 采用YOLO v3的Tiny版本，输入为416x416的RGB图，输出BoundingBox的位置、尺寸、置信度及类别概率
 
-* loss图：![image-20200218230134551](/Users/minghao/Library/Application Support/typora-user-images/image-20200218230134551.png)
+* loss图：![image-20200218230134551](pics/loss_for_rb_car_detection.png)
 
 * 网络结构图（把Darknet53换成19， 两个多尺度预测）：
 
-  ![image-20200218231947277](/Users/minghao/Library/Application Support/typora-user-images/image-20200218231947277.png)
+  ![image-20200218231947277](pics/Yolo_v3_Structure.png)
 
 ### 车轮、装甲板、尾灯检测模块
 
@@ -43,7 +43,7 @@
 
 * loss
 
-  ![image-20200218233139320](/Users/minghao/Library/Application Support/typora-user-images/image-20200218233139320.png)
+  ![image-20200218233139320](pics/loss_for_angle_estimation.png)
 
 ### 像素图与地图之间坐标变换
 

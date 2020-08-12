@@ -7,7 +7,6 @@ Created on Tue Jan 14 22:53:53 2020
 """
 
 import sys
-sys.path.append('/Users/minghao/Documents/University/Robomaster/Localisation/codes/')
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 from yolo_tiny import YOLO
@@ -21,18 +20,10 @@ from keras.models import load_model
 from sklearn.utils.linear_assignment_ import linear_assignment
 from Tracker import Tracker
 
-# Blue
-# video_input_path = '/Users/minghao/Documents/University/Robomaster/Object_Detection/raw_data/2020_1_4_15_27_47_2.mp4'
-
-# Red
-# video_input_path = '/Users/minghao/Documents/University/Robomaster/Object_Detection/raw_data/2020_1_4_15_40_43_178.mp4'
 
 # Data Unseen
-video_input_path = '/Users/minghao/Documents/University/Robomaster/Object_Detection/raw_data/2020_1_4_16_1_45_967.mp4'
+video_input_path = 'test_video.mp4'
 
-# video_input_path = '/Users/minghao/Documents/University/Robomaster/Object_Detection/raw_data_3_cars/2020_1_14_15_38_16_374.avi'
-
-# video_input_path = '/Users/minghao/Documents/University/Robomaster/Object_Detection/raw_data_4_cars/2020_1_16_17_43_13_574.mp4'
 video_output_path = ""
 
 is_to_detect_image = False
@@ -285,7 +276,7 @@ def detect_img(yolo_red_blue, yolo_roi_feature, angle_model):
 
 def detect_video(yolo_red_blue, yolo_roi_feature, angle_model, video_path, output_path=""):
     vid = cv2.VideoCapture(video_path)
-    tracker = Tracker()
+    tracker = Tracker(max_age=4)
     return_value, frame = vid.read()
     camera = Camera(image_for_calibration=frame, n_keypoints=4)
     # camera = Camera(n_keypoints=6)
