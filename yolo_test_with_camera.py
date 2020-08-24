@@ -232,8 +232,8 @@ def process_one_image(yolo_red_blue, yolo_roi_feature, angle_model, image, frame
         i_center, i_angle = locate_one_roi(i_roi_feature_bboxs, yolo_roi_feature.class_names, stored_angles[i], stored_guess_centers[i], camera)
         pos_heading_info.append( (i_center[0], i_center[1], i_angle) )
         
-    for i,tmp_roi_image in enumerate(stored_roi_images):
-        cv2.imshow('roi%d'%(bbox2ID_matrix[i].argmax()), cv2.cvtColor(np.asarray(tmp_roi_image), cv2.COLOR_RGB2BGR))
+    # for i,tmp_roi_image in enumerate(stored_roi_images):
+    #     cv2.imshow('roi%d'%(bbox2ID_matrix[i].argmax()), cv2.cvtColor(np.asarray(tmp_roi_image), cv2.COLOR_RGB2BGR))
         
     result = np.asarray(image)
     result = cv2.cvtColor(result,cv2.COLOR_RGB2BGR)

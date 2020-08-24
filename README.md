@@ -1,14 +1,82 @@
-# RoboNet
+# RoboNet-哨岗相机机器人视觉定位算法
+
+```
+RoboNet/
+├── yolo_test_with_camera.py             #哨岗相机定位测试
+├── yolo_tiny.py                         #YOLO v3 tiny类函数
+├── Car_info.py                          #战车尺寸参数定义
+├── coordinate_transformer.py            #相机模型定义，用于坐标变换
+├── Tracker.py                           #战车位姿卡尔曼跟踪器
+├── README.md                            #说明文档
+├── test_video.mp4                       #测试视频
+├── font                                 #展示检测结果时用的字体文件
+│   └── FiraMono-Medium.otf              #字体库
+├── model_data                           #神经网络模型权重及配置文件
+│   ├── AngleEstimator.h5                #朝向角估计模型文件
+│   ├── RedBlueDetect.h5                 #红蓝车YOLO模型文件
+│   ├── robomaster_classes.txt           #红蓝车YOLO模型索引对应类别
+│   ├── ROIFeature.h5                    #车轮、装甲板、尾灯检测模型文件
+│   ├── roi_classes.txt                  #车轮、装甲板、尾灯检测模型索引对应类别
+│   ├── yolo_anchors_robot.txt           #红蓝车YOLO模型anchors
+│   └── yolo_anchors_roi.txt             #车轮、装甲板、尾灯检测模型anchors
+├── pics                                 #README中插入图片文件
+│   ├── loss_for_angle_estimation.png    #训练朝向角估计模型时损失函数图
+│   ├── loss_for_rb_car_detection.png    #训练红蓝车检测模型时损失函数图
+│   ├── keypoints.jpg                    #关键点位置和顺序图
+│   ├── select_4_keypoints.jpg           #选取关键点示例
+│   ├── software-framework.png           #软件框架图
+│   ├── test_result.gif                  #测试效果动态图
+│   └──Yolo_v3_Structure.png             #YOLO v3模型结构图
+├── yolo3                                #YOLO v3模型
+│   ├── model.py                         #YOLO v3模型
+│   └── utils.py                         #辅助函数
+```
 
 
 
-### 内容简述
+## 依赖工具
 
-* 红色车、蓝色车物体检测模块（YOLO v3）
-* 在上步得到Bounding Box（ROI）内进行车轮、装甲板、尾灯检测模块（YOLO v3）
-* 根据ROI估算战车在ROI坐标中的朝向角（卷积+全连接预测角度的sin与cos值）
-* 像素图与地图之间坐标变换
-* 基于卡尔曼滤波与匈牙利算法的车辆位置与角度跟踪
+该部分基于Python语言，利用深度学习算法、视角变换和跟踪算法实现战车的定位和跟踪；
+
+可通过rospy实现与战车间的通讯；
+
+程序依赖工具如下：
+
+* python3.7
+* TensorFlow==1.15
+* numpy
+* opencv
+* sklearn
+* matplotlib
+* filterpy
+
+
+
+## 内容简述
+
+本程序可利用全局视角相机采集的图像信息，基于神经网络图像识别技术对机器人特征进行识别，并可求解对应机器人的全局位置与姿态。该位姿信息可以通过通讯传送给己方机器人，从而提高己方定位精度，并为智能决策提供全局态势判断。本程序主要包含以下五个功能模块：
+
+- 红色车、蓝色车物体检测模块（YOLO v3）
+
+- 车轮、装甲板、尾灯检测模块（YOLO v3）
+
+- 估算战车在ROI坐标中的朝向角模块（卷积+全连接预测角度的sin与cos值）
+
+- 像素图与地图之间坐标变换模块
+
+- 基于卡尔曼滤波与匈牙利算法的车辆位置与角度跟踪模块
+
+  
+
+  软件架构如下图所示
+
+  ![image-20200824135610905](pics/software-framework.png)
+
+  
+
+
+
+各模块简要介绍如下（本算法理论基础及感知部分算法介绍可见项目wiki）：
 
 ### 红色车、蓝色车物体检测模块（YOLO v3）
 
@@ -56,6 +124,10 @@
 * 在得到检测结果后，可得到每个检测到的bounding box属于ID（红1、红2、蓝1、蓝2）的概率矩阵，再计算坐标变换后的车位置与卡尔曼滤波预测位置的IOU矩阵
 * 将上述两个矩阵相加，通过匈牙利算法选出每个检测结果对应的ID，进而更新卡尔曼滤波器
 
+
+
+## 软件效果展示
+
 ### 测试步骤
 
 * 在RoboNet目录下，运行`python yolo_test_with_camera.py`
@@ -66,5 +138,14 @@
   关键点的选择顺序为：![keypoints](pics/keypoints.jpg)
   
 
-  
 
+
+### 测试结果
+
+![test_result](pics/test_result.gif)
+
+
+
+## 开源协议
+
+MIT License
